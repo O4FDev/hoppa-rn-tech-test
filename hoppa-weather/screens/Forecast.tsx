@@ -1,5 +1,4 @@
-import { FlatList, Text, View } from "react-native";
-import { useState } from "react";
+import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import { useQuery } from 'react-query';
 import { Root } from "../types";
 import { StyleSheet } from 'react-native';
@@ -9,7 +8,7 @@ const getForecast = async () => {
     return response.json();
 }
 
-export function ForecastScreen() {
+export function ForecastScreen({ navigation }: { navigation: any }) {
     const { data, status } = useQuery<Root>('forecast', getForecast);
 
     if (status === 'loading') {
@@ -19,11 +18,38 @@ export function ForecastScreen() {
     }
 
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <View style={{backgroundColor: '#fff', flex: 1}}>
             <FlatList 
                 data={data?.forecast.forecastday}
                 renderItem={({ item }) => (
-                    <Text>{item.date} - {item.day.condition.text}</Text>
+                    <TouchableOpacity 
+                        style={styles.button}
+                        onPress={() => {
+                            navigation.navigate('Details', {forecast: item})
+                        }}
+                    >
+                        <View style={styles.imgInfoContainer}>
+                            <Image
+                                style={{ width: 64, height: 64 }}
+                                source={{uri: `http:${item.day.condition.icon}`}}
+                            />
+                            <View style={styles.mainInfo}>
+                                <Text style={{fontSize: 20}}>
+                                    {item.day.condition.text}
+                                </Text>
+                                <View style={{flexDirection: 'row'}}>
+                                    <Text>min {item.day.maxtemp_c}°C</Text>
+                                    <Text style={{paddingLeft: '3%'}}>max {item.day.mintemp_c}°C</Text>
+                                </View>
+                            </View>
+                        </View>
+                        <View style={{flex: 1, alignItems: 'flex-end'}}>
+                            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                                <Text style={{fontSize: 16}}>{item.day.daily_chance_of_rain}%</Text>
+                                <Text style={{fontSize: 12}}>Chance of rain</Text>
+                            </View>
+                        </View>
+                    </TouchableOpacity>
                 )}
                 keyExtractor={item => item.date}
             />
@@ -31,11 +57,21 @@ export function ForecastScreen() {
     );
 }
 
-StyleSheet.create({
-    container: {
+const styles = StyleSheet.create({
+    button: {
         flex: 1,
         backgroundColor: '#fff',
+        justifyContent: 'space-between',
+        width: '100%',
+        padding: 10,
+        flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
     },
+    imgInfoContainer: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    mainInfo: {
+        flexDirection: 'column'
+    }
 });

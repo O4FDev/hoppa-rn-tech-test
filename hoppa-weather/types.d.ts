@@ -138,3 +138,8 @@ export interface Condition3 {
     icon: string
     code: number
 }
+
+type RootStackParamList = {
+    Forecast: undefined;
+    Details: { forecast: Forecastday };
+};
