@@ -38,8 +38,8 @@ export function ForecastScreen({ navigation }: { navigation: any }) {
                                     {item.day.condition.text}
                                 </Text>
                                 <View style={{flexDirection: 'row'}}>
-                                    <Text>min {item.day.maxtemp_c}°C</Text>
-                                    <Text style={{paddingLeft: '3%'}}>max {item.day.mintemp_c}°C</Text>
+                                    <Text>min {item.day.mintemp_c}°C</Text>
+                                    <Text style={{paddingLeft: '3%'}}>max {item.day.maxtemp_c}°C</Text>
                                 </View>
                             </View>
                         </View>

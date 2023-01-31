@@ -11,8 +11,8 @@ export function DetailsScreen({ route }: { route: any}) {
             />
             <Text style={styles.Title}>{forecast.day.condition.text}</Text>
             <View style={styles.InfoContainer}>
-                <Text>min {forecast.day.maxtemp_c}°C</Text>
-                <Text style={styles.InfoPadding}>max {forecast.day.mintemp_c}°C</Text>
+                <Text>min {forecast.day.mintemp_c}°C</Text>
+                <Text style={styles.InfoPadding}>max {forecast.day.maxtemp_c}°C</Text>
             </View>
             <View style={styles.InfoContainer}>
                 <Text>{forecast.day.daily_chance_of_rain}% chance of rain</Text>
